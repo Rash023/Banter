@@ -3,9 +3,18 @@ import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { useRouter } from 'next/navigation'
 
 export default function Component() {
+  const router = useRouter()
   const [roomID, setRoomId] = useState<null | Number>(null)
+
+  const handleJoinRoom = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    if (roomID !== null) {
+      router.push(`/room/${roomID}`)
+    }
+  }
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-14 flex items-center">
@@ -25,7 +34,7 @@ export default function Component() {
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">Join a Room</h1>
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">Banter</h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
                     Enter your unique Room ID to join the gathering space
                   </p>
@@ -35,8 +44,15 @@ export default function Component() {
                     <Input type="text" placeholder="Enter room ID" className="max-w-lg flex-1" onChange={(e) => {
                       setRoomId(Number(e.target.value))
                     }} />
-                    <Button type="submit">Join Room</Button>
+                    <Button type="submit" onClick={handleJoinRoom}>Join Room</Button>
+                    
                   </form>
+                  <div className="flex flex-col w-max gap-2">
+                      <p className="px-28">OR</p>
+                      <Button type="submit" className="justify-left" onClick={()=>{
+                          router.push(`/room/xyz`)
+                      }}>Create Room</Button>
+                  </div>
                 </div>
               </div>
               <img
